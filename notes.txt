@@ -1,0 +1,24 @@
+to do:
+
+create virtual environment on home pc
+python3 -m venv <dir>
+
+	activating venv
+	source <dir>/Scripts/activate
+
+install python telegram package on home repository
+
+python -m pip install -r requirements.txt
+
+
+
+
+
+rename env file at home to just ".env" python expects there to be a file as such
+
+
+TELEGRAM_API_KEY to BOT_TOKEN at home
+
+
+resources:
+https://packaging.python.org/en/latest/tutorials/installing-packages/
