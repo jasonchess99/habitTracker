@@ -34,4 +34,6 @@ if __name__ == '__main__':
 
 
 
-print(TOKEN)
+
+#prevents the application from running forever (temp)
+application.stop()
