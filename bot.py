@@ -1,13 +1,25 @@
-#reading environment Variables
-from dotenv import load_dotenv
+#function files
+from commands import *
 
 #allow for OS operations to be ran by this script
 import os
 
-#Telegram bot dependencies
+#Logging
 import logging
+
+#reading environment Variables
+from dotenv import load_dotenv
+
+#Telegram dependencies
 from telegram import Update
-from telegram.ext import filters, ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler
+from telegram.ext import(
+    filters, 
+    ApplicationBuilder, 
+    ContextTypes, 
+    CommandHandler, 
+    MessageHandler
+)
+
 
 
 #loading .env file and instantiating the bot token within this script (hard code bypass)
@@ -22,23 +34,6 @@ logging.basicConfig(
 )
 
 
-#context for when the start command is called
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await context.bot.send_message(chat_id=update.effective_chat.id, text="I'm a bot, please talk to me!")
-
-#Context for Echo command
-async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await context.bot.send_message(chat_id=update.effective_chat.id, text= update.message.text)
-
-#caps command. /caps hello world
-async def caps(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    text_caps = ' '.join(context.args).upper()
-    await context.bot.send_message(chat_id=update.effective_chat.id, text=text_caps)
-
-#Message handler for unknown commands
-async def unknown(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await context.bot.send_message(chat_id=update.effective_chat.id, text="Sorry, I didn't understand that command.")
-
 
 #this is main
 if __name__ == '__main__':
@@ -48,13 +43,10 @@ if __name__ == '__main__':
     start_handler = CommandHandler('start', start)
     application.add_handler(start_handler)
 
-    #Echo command
-    echo_handler = MessageHandler(filters.TEXT & (~filters.COMMAND), echo)
-    application.add_handler(echo_handler)
 
-    #caps command
-    caps_handler = CommandHandler('caps', caps)
-    application.add_handler(caps_handler)
+    #log command
+    log_handler = CommandHandler('log', log)
+    application.add_handler(log_handler)
     
     #unknown commands
     #must be added last. will trigger irresponsibly otherwise
