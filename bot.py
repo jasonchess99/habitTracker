@@ -13,7 +13,8 @@ from dotenv import load_dotenv
 #Telegram dependencies
 from telegram import Update
 from telegram.ext import(
-    filters, 
+    filters,
+    Application, 
     ApplicationBuilder, 
     ContextTypes, 
     CommandHandler, 
@@ -38,6 +39,9 @@ logging.basicConfig(
 #this is main
 if __name__ == '__main__':
     application = ApplicationBuilder().token(TOKEN).build()
+
+    #start the jobqueue
+    job_queue = application.job_queue
     
     # the /start command
     start_handler = CommandHandler('start', start)
@@ -48,11 +52,17 @@ if __name__ == '__main__':
     log_handler = CommandHandler('log', log)
     application.add_handler(log_handler)
     
+    
+
+    # /remindme 60 example reminder
+    # reminds the user every 60 minutes
+    remindMe_handler = CommandHandler('remindme', remindMe)
+    application.add_handler(remindMe_handler)
+    
     #unknown commands
     #must be added last. will trigger irresponsibly otherwise
     unknown_handler = MessageHandler(filters.COMMAND, unknown)
     application.add_handler(unknown_handler)
-
 
     #runs bot until Ctrl + C
     application.run_polling()
